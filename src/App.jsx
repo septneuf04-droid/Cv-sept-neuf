@@ -73,7 +73,7 @@ export default function App() {
       document.body.style.overflow = '';
     }
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setMobileMenuOpen(false);
       }
     };
@@ -458,7 +458,7 @@ FORMATION & CERTIFICATIONS :
           </a>
 
           {/* Center Block: Navigation Links (Desktop) */}
-          <div className="hidden md:flex items-center gap-1 lg:gap-3 text-xs font-medium font-sans">
+          <div className="hidden lg:flex items-center gap-1.5 xl:gap-3 text-xs font-medium font-sans">
             <a
               href="#about"
               className="px-3 py-1.5 rounded-lg link-lift text-gray-300 hover:text-white hover:bg-white/10 transition-all"
@@ -496,7 +496,7 @@ FORMATION & CERTIFICATIONS :
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Live Kolwezi Time Indicator */}
             {currentTime && (
-              <div className="hidden lg:flex items-center gap-1.5 font-mono text-[11px] px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-gray-300">
+              <div className="hidden xl:flex items-center gap-1.5 font-mono text-[11px] px-3 py-1.5 rounded-lg border bg-white/5 border-white/10 text-gray-300">
                 <Clock className="w-3.5 h-3.5 text-corail" />
                 <span>Kolwezi {currentTime}</span>
               </div>
@@ -515,11 +515,12 @@ FORMATION & CERTIFICATIONS :
             {/* Mobile Pro Animated Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden relative w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:border-corail/40 flex flex-col items-center justify-center gap-1.5 transition-all focus:outline-none cursor-pointer"
-              aria-label="Menu de navigation"
+              className="lg:hidden relative z-50 w-11 h-11 rounded-xl bg-white/5 border border-white/10 hover:border-corail/40 active:scale-95 flex flex-col items-center justify-center gap-1.5 transition-all focus:outline-none cursor-pointer"
+              aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu de navigation'}
+              aria-expanded={mobileMenuOpen}
             >
               <span
-                className={`w-5 h-0.5 rounded-full transition-all duration-300 ease-out ${
+                className={`w-5 h-0.5 rounded-full transition-all duration-300 ease-out origin-center ${
                   mobileMenuOpen
                     ? 'rotate-45 translate-y-2 bg-corail'
                     : 'bg-white'
@@ -533,7 +534,7 @@ FORMATION & CERTIFICATIONS :
                 }`}
               />
               <span
-                className={`w-5 h-0.5 rounded-full transition-all duration-300 ease-out ${
+                className={`w-5 h-0.5 rounded-full transition-all duration-300 ease-out origin-center ${
                   mobileMenuOpen
                     ? '-rotate-45 -translate-y-2 bg-corail'
                     : 'bg-white'
@@ -542,95 +543,108 @@ FORMATION & CERTIFICATIONS :
             </button>
           </div>
         </div>
-
-        {/* ==================================================== */}
-        {/* MOBILE MENU DRAWER — EFFET PRO, IMMERSIF & ÉLÉGANT   */}
-        {/* ==================================================== */}
-        <div
-          className={`md:hidden fixed inset-x-0 top-[60px] sm:top-[68px] bottom-0 bg-[#0B0B0E]/98 backdrop-blur-3xl border-b border-white/10 z-40 flex flex-col justify-between p-6 overflow-y-auto transition-all duration-400 ease-in-out ${
-            mobileMenuOpen
-              ? 'opacity-100 translate-y-0 pointer-events-auto'
-              : 'opacity-0 -translate-y-4 pointer-events-none'
-          }`}
-        >
-          {/* Navigation Items with Numbers */}
-          <div className="space-y-2.5 pt-2">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-gray-500 block px-2 mb-2">
-              Navigation Rapide
-            </span>
-
-            {[
-              { num: '01', label: 'À propos & Manifeste', href: '#about' },
-              { num: '02', label: 'Parcours & Expériences', href: '#experience' },
-              { num: '03', label: 'Tableau de bord technique', href: '#skills', isSpecial: true },
-              { num: '04', label: 'Cursus & Formation', href: '#education' },
-              { num: '05', label: 'Contact & Collaboration', href: '#contact' },
-            ].map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`group flex items-center justify-between p-4 rounded-2xl border transition-all ${
-                  item.isSpecial
-                    ? 'bg-corail/15 border-corail/30 text-white shadow-lg'
-                    : 'bg-white/5 border-white/5 hover:border-white/15 text-gray-200 hover:text-white'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className={`font-mono text-xs font-semibold ${item.isSpecial ? 'text-corail' : 'text-gray-500 group-hover:text-corail'}`}>
-                    {item.num}
-                  </span>
-                  <span className="font-sans font-bold text-base">
-                    {item.label}
-                  </span>
-                </div>
-                {item.isSpecial ? (
-                  <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-corail text-white text-[10px] font-mono font-bold">
-                    <Activity className="w-3 h-3 animate-pulse" /> LIVE
-                  </span>
-                ) : (
-                  <ArrowUpRight className="w-4 h-4 text-gray-500 group-hover:text-corail group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                )}
-              </a>
-            ))}
-          </div>
-
-          {/* Bottom Quick Card on Mobile */}
-          <div className="pt-6 border-t border-white/10 space-y-3.5">
-            {/* Live Kolwezi Status */}
-            <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 font-mono text-xs">
-              <div className="flex items-center gap-2 text-gray-300">
-                <MapPin className="w-3.5 h-3.5 text-corail" />
-                <span>Kolwezi (Gouvernorat), RDC</span>
-              </div>
-              {currentTime && (
-                <span className="text-corail font-bold">{currentTime} CAT</span>
-              )}
-            </div>
-
-            {/* Email link */}
-            <a
-              href="mailto:septneuf04@gmail.com"
-              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-white/5 text-xs text-gray-300 hover:text-white border border-white/5 font-mono"
-            >
-              <Mail className="w-3.5 h-3.5 text-corail" />
-              <span>septneuf04@gmail.com</span>
-            </a>
-
-            {/* Direct CTA Download */}
-            <button
-              onClick={(e) => {
-                setMobileMenuOpen(false);
-                handleDownloadCV(e);
-              }}
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-corail hover:bg-corail-dark text-white font-bold text-sm shadow-coral transition-colors cursor-pointer"
-            >
-              <Download className="w-4 h-4" />
-              <span>Télécharger mon CV (PDF)</span>
-            </button>
-          </div>
-        </div>
       </header>
+
+      {/* ==================================================== */}
+      {/* MOBILE MENU DRAWER — PLEIN ÉCRAN, PRO & INTERACTIF   */}
+      {/* Placé hors de <header> pour éviter le piège CSS      */}
+      {/* backdrop-filter / containing-block sur 'fixed'       */}
+      {/* ==================================================== */}
+      <div
+        id="mobile-navigation-drawer"
+        className={`lg:hidden fixed inset-0 z-40 bg-[#0B0B0E]/98 backdrop-blur-3xl pt-24 pb-8 px-5 sm:px-8 flex flex-col justify-between overflow-y-auto transition-all duration-300 ease-in-out ${
+          mobileMenuOpen
+            ? 'opacity-100 translate-y-0 pointer-events-auto visible'
+            : 'opacity-0 -translate-y-4 pointer-events-none invisible'
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation mobile"
+      >
+        {/* Navigation Items with Numbers */}
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between px-2 mb-3">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-corail font-bold flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-corail animate-pulse" />
+              Navigation Principale
+            </span>
+            <span className="font-mono text-[11px] text-gray-500">
+              Sept Neuf Portfolio
+            </span>
+          </div>
+
+          {[
+            { num: '00', label: 'Accueil & Présentation', href: '#hero' },
+            { num: '01', label: 'À propos & Manifeste', href: '#about' },
+            { num: '02', label: 'Parcours & Expériences', href: '#experience' },
+            { num: '03', label: 'Tableau de bord technique', href: '#skills', isSpecial: true },
+            { num: '04', label: 'Cursus & Formation', href: '#education' },
+            { num: '05', label: 'Contact & Collaboration', href: '#contact' },
+          ].map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className={`group flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border transition-all active:scale-[0.98] ${
+                item.isSpecial
+                  ? 'bg-corail/15 border-corail/40 text-white shadow-lg shadow-corail/10'
+                  : 'bg-white/5 border-white/5 hover:border-corail/30 text-gray-200 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className={`font-mono text-xs font-semibold ${item.isSpecial ? 'text-corail' : 'text-gray-500 group-hover:text-corail'}`}>
+                  {item.num}
+                </span>
+                <span className="font-sans font-bold text-base sm:text-lg">
+                  {item.label}
+                </span>
+              </div>
+              {item.isSpecial ? (
+                <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-corail text-white text-[10px] font-mono font-bold">
+                  <Activity className="w-3 h-3 animate-pulse" /> LIVE
+                </span>
+              ) : (
+                <ArrowUpRight className="w-4 h-4 text-gray-500 group-hover:text-corail group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              )}
+            </a>
+          ))}
+        </div>
+
+        {/* Bottom Quick Card on Mobile */}
+        <div className="pt-6 border-t border-white/10 space-y-3.5 mt-4">
+          {/* Live Kolwezi Status */}
+          <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 font-mono text-xs">
+            <div className="flex items-center gap-2 text-gray-300">
+              <MapPin className="w-3.5 h-3.5 text-corail" />
+              <span>Kolwezi (Gouvernorat), RDC</span>
+            </div>
+            {currentTime && (
+              <span className="text-corail font-bold">{currentTime} CAT</span>
+            )}
+          </div>
+
+          {/* Email link */}
+          <a
+            href="mailto:septneuf04@gmail.com"
+            className="flex items-center justify-center gap-2 p-3 rounded-xl bg-white/5 text-xs text-gray-300 hover:text-white border border-white/5 font-mono"
+          >
+            <Mail className="w-3.5 h-3.5 text-corail" />
+            <span>septneuf04@gmail.com</span>
+          </a>
+
+          {/* Direct CTA Download */}
+          <button
+            onClick={(e) => {
+              setMobileMenuOpen(false);
+              handleDownloadCV(e);
+            }}
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-corail hover:bg-corail-dark text-white font-bold text-sm shadow-coral transition-colors cursor-pointer active:scale-[0.98]"
+          >
+            <Download className="w-4 h-4" />
+            <span>Télécharger mon CV (PDF)</span>
+          </button>
+        </div>
+      </div>
 
 
       {/* ======================================================== */}
