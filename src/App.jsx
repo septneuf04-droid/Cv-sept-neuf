@@ -45,6 +45,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formSent, setFormSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
@@ -63,6 +64,25 @@ export default function App() {
   const skillsRef = useRef(null);
   const educationRef = useRef(null);
   const contactRef = useRef(null);
+
+  // Close mobile menu on resize to desktop & lock scroll when open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [mobileMenuOpen]);
 
   // Live Kolwezi Time (CAT / UTC+2)
   useEffect(() => {
@@ -408,6 +428,7 @@ FORMATION & CERTIFICATIONS :
           {/* Left Block: Photo Avatar Cadre & Marque */}
           <a
             href="#hero"
+            onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-3 group link-lift focus:outline-none"
           >
             <div className="relative">
@@ -436,7 +457,7 @@ FORMATION & CERTIFICATIONS :
             </div>
           </a>
 
-          {/* Center Block: Navigation Links */}
+          {/* Center Block: Navigation Links (Desktop) */}
           <div className="hidden md:flex items-center gap-1 lg:gap-3 text-xs font-medium font-sans">
             <a
               href="#about"
@@ -471,7 +492,7 @@ FORMATION & CERTIFICATIONS :
             </a>
           </div>
 
-          {/* Right Block: Live Clock & Quick Action */}
+          {/* Right Block: Live Clock & Quick Action + Mobile Hamburger */}
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Live Kolwezi Time Indicator */}
             {currentTime && (
@@ -484,11 +505,128 @@ FORMATION & CERTIFICATIONS :
             {/* Direct CTA CV */}
             <button
               onClick={handleDownloadCV}
-              className="btn-magnetic flex items-center gap-1.5 sm:gap-2 bg-corail hover:bg-corail-dark text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow-coral cursor-pointer"
+              className="btn-magnetic flex items-center gap-1.5 sm:gap-2 bg-corail hover:bg-corail-dark text-white px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow-coral cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Télécharger</span>
               <span>CV</span>
+            </button>
+
+            {/* Mobile Pro Animated Hamburger Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden relative w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:border-corail/40 flex flex-col items-center justify-center gap-1.5 transition-all focus:outline-none cursor-pointer"
+              aria-label="Menu de navigation"
+            >
+              <span
+                className={`w-5 h-0.5 rounded-full transition-all duration-300 ease-out ${
+                  mobileMenuOpen
+                    ? 'rotate-45 translate-y-2 bg-corail'
+                    : 'bg-white'
+                }`}
+              />
+              <span
+                className={`w-5 h-0.5 rounded-full transition-all duration-300 ease-out ${
+                  mobileMenuOpen
+                    ? 'opacity-0 scale-x-0'
+                    : 'bg-white'
+                }`}
+              />
+              <span
+                className={`w-5 h-0.5 rounded-full transition-all duration-300 ease-out ${
+                  mobileMenuOpen
+                    ? '-rotate-45 -translate-y-2 bg-corail'
+                    : 'bg-white'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+
+        {/* ==================================================== */}
+        {/* MOBILE MENU DRAWER — EFFET PRO, IMMERSIF & ÉLÉGANT   */}
+        {/* ==================================================== */}
+        <div
+          className={`md:hidden fixed inset-x-0 top-[60px] sm:top-[68px] bottom-0 bg-[#0B0B0E]/98 backdrop-blur-3xl border-b border-white/10 z-40 flex flex-col justify-between p-6 overflow-y-auto transition-all duration-400 ease-in-out ${
+            mobileMenuOpen
+              ? 'opacity-100 translate-y-0 pointer-events-auto'
+              : 'opacity-0 -translate-y-4 pointer-events-none'
+          }`}
+        >
+          {/* Navigation Items with Numbers */}
+          <div className="space-y-2.5 pt-2">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-gray-500 block px-2 mb-2">
+              Navigation Rapide
+            </span>
+
+            {[
+              { num: '01', label: 'À propos & Manifeste', href: '#about' },
+              { num: '02', label: 'Parcours & Expériences', href: '#experience' },
+              { num: '03', label: 'Tableau de bord technique', href: '#skills', isSpecial: true },
+              { num: '04', label: 'Cursus & Formation', href: '#education' },
+              { num: '05', label: 'Contact & Collaboration', href: '#contact' },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`group flex items-center justify-between p-4 rounded-2xl border transition-all ${
+                  item.isSpecial
+                    ? 'bg-corail/15 border-corail/30 text-white shadow-lg'
+                    : 'bg-white/5 border-white/5 hover:border-white/15 text-gray-200 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className={`font-mono text-xs font-semibold ${item.isSpecial ? 'text-corail' : 'text-gray-500 group-hover:text-corail'}`}>
+                    {item.num}
+                  </span>
+                  <span className="font-sans font-bold text-base">
+                    {item.label}
+                  </span>
+                </div>
+                {item.isSpecial ? (
+                  <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-corail text-white text-[10px] font-mono font-bold">
+                    <Activity className="w-3 h-3 animate-pulse" /> LIVE
+                  </span>
+                ) : (
+                  <ArrowUpRight className="w-4 h-4 text-gray-500 group-hover:text-corail group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                )}
+              </a>
+            ))}
+          </div>
+
+          {/* Bottom Quick Card on Mobile */}
+          <div className="pt-6 border-t border-white/10 space-y-3.5">
+            {/* Live Kolwezi Status */}
+            <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 font-mono text-xs">
+              <div className="flex items-center gap-2 text-gray-300">
+                <MapPin className="w-3.5 h-3.5 text-corail" />
+                <span>Kolwezi (Gouvernorat), RDC</span>
+              </div>
+              {currentTime && (
+                <span className="text-corail font-bold">{currentTime} CAT</span>
+              )}
+            </div>
+
+            {/* Email link */}
+            <a
+              href="mailto:septneuf04@gmail.com"
+              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-white/5 text-xs text-gray-300 hover:text-white border border-white/5 font-mono"
+            >
+              <Mail className="w-3.5 h-3.5 text-corail" />
+              <span>septneuf04@gmail.com</span>
+            </a>
+
+            {/* Direct CTA Download */}
+            <button
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                handleDownloadCV(e);
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-corail hover:bg-corail-dark text-white font-bold text-sm shadow-coral transition-colors cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>Télécharger mon CV (PDF)</span>
             </button>
           </div>
         </div>
@@ -501,7 +639,7 @@ FORMATION & CERTIFICATIONS :
       <section
         id="hero"
         ref={heroRef}
-        className="relative min-h-[100dvh] flex flex-col justify-center bg-encre text-white px-4 sm:px-8 lg:px-14 pt-28 lg:pt-24 pb-16 overflow-hidden"
+        className="relative min-h-[100dvh] flex flex-col justify-center bg-encre text-white px-4 sm:px-8 lg:px-14 pt-24 sm:pt-28 lg:pt-24 pb-12 sm:pb-16 overflow-hidden"
       >
         {/* Cinematic Architectural Background Texture */}
         <div
@@ -518,7 +656,7 @@ FORMATION & CERTIFICATIONS :
         <div className="absolute -top-32 left-10 w-[500px] h-[500px] rounded-full bg-white/5 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-encre to-transparent pointer-events-none" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           
           {/* ==================================================== */}
           {/* Left Column (lg:col-span-7): Typographie & Contenu  */}
@@ -526,68 +664,68 @@ FORMATION & CERTIFICATIONS :
           <div className="lg:col-span-7 flex flex-col items-start text-left order-2 lg:order-1">
             
             {/* Status Beacon Pill */}
-            <div className="hero-badge-elem inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6 shadow-lg">
-              <span className="relative flex h-2 w-2">
+            <div className="hero-badge-elem inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-4 sm:mb-6 shadow-lg max-w-full">
+              <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="font-mono text-xs uppercase tracking-wider text-gray-200">
+              <span className="font-mono text-[11px] sm:text-xs uppercase tracking-wider text-gray-200 truncate">
                 Disponible pour missions d'architecture & lead tech
               </span>
             </div>
 
             {/* Candidate Name — Police SYNE Spectaculaire (font-display) */}
-            <h1 className="hero-name-line font-display font-extrabold text-5xl sm:text-7xl md:text-8xl lg:text-[5.2rem] xl:text-[6.5rem] tracking-tight text-white mb-2 uppercase leading-[0.88] drop-shadow-2xl">
+            <h1 className="hero-name-line font-display font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[6.2rem] tracking-tight text-white mb-2 uppercase leading-[0.9] drop-shadow-2xl">
               <span className="bg-gradient-to-br from-white via-white to-gray-400 bg-clip-text text-transparent">
                 Sept Neuf
               </span>
             </h1>
 
             {/* Professional Title — Cormorant Garamond Italique */}
-            <p className="hero-title font-serif italic text-2xl sm:text-3xl lg:text-4xl text-corail-light font-normal mb-5 leading-relaxed">
+            <p className="hero-title font-serif italic text-xl sm:text-2xl md:text-3xl lg:text-4xl text-corail-light font-normal mb-4 sm:mb-5 leading-relaxed">
               Développeur Senior & Architecte Logiciel
             </p>
 
-            <p className="text-gray-300 text-sm sm:text-base max-w-xl mb-7 font-sans font-light leading-relaxed">
+            <p className="text-gray-300 text-sm sm:text-base max-w-xl mb-6 sm:mb-7 font-sans font-light leading-relaxed">
               Bâtir des architectures logicielles intègres, scalables et des interfaces web d'une fluidité cinématographique. Basé à Kolwezi, RDC & ouvert aux missions d'envergure.
             </p>
 
             {/* HUD Telemetry Quick Bar */}
-            <div className="hero-telemetry-hud grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-2xl p-3 sm:p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md mb-8">
-              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center sm:items-start">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400">Expérience</span>
-                <span className="font-mono text-base font-bold text-white flex items-center gap-1 mt-0.5">
+            <div className="hero-telemetry-hud grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 w-full max-w-2xl p-2.5 sm:p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md mb-6 sm:mb-8">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-start">
+                <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-400">Expérience</span>
+                <span className="font-mono text-sm sm:text-base font-bold text-white flex items-center gap-1 mt-0.5">
                   <Clock className="w-3.5 h-3.5 text-corail" /> 07+ Ans
                 </span>
               </div>
 
-              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center sm:items-start">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400">Projets Livrés</span>
-                <span className="font-mono text-base font-bold text-white flex items-center gap-1 mt-0.5">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-start">
+                <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-400">Projets Livrés</span>
+                <span className="font-mono text-sm sm:text-base font-bold text-white flex items-center gap-1 mt-0.5">
                   <Code2 className="w-3.5 h-3.5 text-corail" /> 45+
                 </span>
               </div>
 
-              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center sm:items-start">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400">Architecture</span>
-                <span className="font-mono text-base font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-start">
+                <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-400">Architecture</span>
+                <span className="font-mono text-sm sm:text-base font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
                   <ShieldCheck className="w-3.5 h-3.5" /> Grade A+
                 </span>
               </div>
 
-              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center sm:items-start">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400">Localisation</span>
-                <span className="font-mono text-base font-bold text-white flex items-center gap-1 mt-0.5">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5 flex flex-col items-start">
+                <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-400">Localisation</span>
+                <span className="font-mono text-sm sm:text-base font-bold text-white flex items-center gap-1 mt-0.5">
                   <MapPin className="w-3.5 h-3.5 text-corail" /> Kolwezi, RDC
                 </span>
               </div>
             </div>
 
             {/* CTA Action Buttons */}
-            <div className="hero-cta-group flex flex-wrap items-center gap-3 w-full">
+            <div className="hero-cta-group flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full">
               <button
                 onClick={handleDownloadCV}
-                className="btn-magnetic flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-corail hover:bg-corail-dark text-white font-semibold text-xs sm:text-sm shadow-coral transition-colors cursor-pointer"
+                className="btn-magnetic flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-corail hover:bg-corail-dark text-white font-semibold text-xs sm:text-sm shadow-coral transition-colors cursor-pointer text-center"
               >
                 <Download className="w-4 h-4" />
                 <span>Télécharger mon CV</span>
@@ -595,7 +733,7 @@ FORMATION & CERTIFICATIONS :
 
               <a
                 href="#skills"
-                className="btn-magnetic flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-xs sm:text-sm border border-white/20 backdrop-blur-sm transition-colors"
+                className="btn-magnetic flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-xs sm:text-sm border border-white/20 backdrop-blur-sm transition-colors text-center"
               >
                 <Activity className="w-4 h-4 text-corail" />
                 <span>Tableau de Bord</span>
@@ -603,7 +741,7 @@ FORMATION & CERTIFICATIONS :
 
               <a
                 href="#contact"
-                className="btn-magnetic flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-transparent hover:bg-white/5 text-gray-300 hover:text-white font-medium text-xs sm:text-sm border border-white/10 transition-colors"
+                className="btn-magnetic flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-transparent hover:bg-white/5 text-gray-300 hover:text-white font-medium text-xs sm:text-sm border border-white/10 transition-colors text-center"
               >
                 <Mail className="w-4 h-4 text-corail" />
                 <span>Me contacter</span>
@@ -613,66 +751,34 @@ FORMATION & CERTIFICATIONS :
 
           {/* ==================================================== */}
           {/* Right Column (lg:col-span-5): Photo Agrandie & Intégrée */}
+          {/* VISAGE 100% LIBÉRÉ (Aucun élément superposé sur le visage) */}
           {/* ==================================================== */}
-          <div className="lg:col-span-5 relative order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div className="lg:col-span-5 relative order-1 lg:order-2 flex flex-col items-center lg:items-end justify-center w-full">
             
             {/* Ambient Behind-Portrait Glow Layer */}
-            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-corail/30 via-corail/10 to-transparent blur-3xl pointer-events-none" />
+            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-corail/25 via-corail/5 to-transparent blur-3xl pointer-events-none" />
 
-            {/* Enlarged Photo Container with Gradient Edge Blending (Sans contour circulaire) */}
-            <div className="hero-photo-container relative w-full max-w-[380px] sm:max-w-[430px] lg:max-w-[470px] h-[460px] sm:h-[540px] lg:h-[620px] rounded-3xl overflow-hidden group">
+            {/* Enlarged Photo Container — VISAGE 100% LIBÉRÉ & CADRÉ AVEC ÉLÉGANCE */}
+            <div className="hero-photo-container relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[460px] h-[360px] sm:h-[460px] lg:h-[580px] xl:h-[620px] rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] group bg-[#111115]">
               
-              {/* The Photo Image */}
+              {/* The Photo Image — Visage net, lumineux et complètement dégagé */}
               <img
                 src={userPhoto}
                 alt="Sept Neuf — Développeur Senior & Architecte Logiciel"
-                className="w-full h-full object-cover object-[center_12%] scale-100 filter contrast-[1.08] brightness-105 group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover object-[center_10%] scale-100 filter contrast-[1.06] brightness-105 group-hover:scale-105 transition-transform duration-700"
               />
 
-              {/* Seamless Vignette & Gradient Blending Overlays */}
-              {/* Bottom Dissolve into #1C1C1E */}
-              <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-encre via-encre/70 to-transparent pointer-events-none" />
-              {/* Left Edge Dissolve on Desktop to merge with text background */}
-              <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-encre via-encre/50 to-transparent pointer-events-none hidden lg:block" />
-              {/* Top Vignette Edge */}
-              <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-encre/40 to-transparent pointer-events-none" />
-              {/* Right Edge Softening */}
-              <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-encre/50 to-transparent pointer-events-none hidden sm:block" />
+              {/* Subtil fondu progressif UNIQUEMENT au bas du buste (laisse le visage et la tête 100% dégagés) */}
+              <div className="absolute bottom-0 inset-x-0 h-24 sm:h-32 bg-gradient-to-t from-[#0F0F12] via-[#0F0F12]/60 to-transparent pointer-events-none" />
+            </div>
 
-              {/* High-Tech Frontend HUD Overlays */}
-              
-              {/* Top GPS / Coordinates Tag */}
-              <div className="hero-satellite-badge absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-encre/85 border border-white/15 backdrop-blur-xl text-[10px] font-mono text-gray-300 shadow-xl flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-corail animate-pulse" />
-                <span>10.72° S, 25.47° E • CAT</span>
+            {/* Bandeau d'information placé EN DESSOUS de la photo (libère totalement le visage) */}
+            <div className="w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[460px] mt-3.5 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-between text-xs font-mono text-gray-300 shadow-lg">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-semibold text-white">Kolwezi, RDC</span>
               </div>
-
-              {/* Floating Top-Left Interactive Tech Chip */}
-              <div className="hero-satellite-badge absolute top-6 -left-2 sm:left-4 px-3.5 py-2 rounded-xl bg-encre/90 border border-corail/40 backdrop-blur-xl shadow-2xl flex items-center gap-2 text-xs font-mono">
-                <Cpu className="w-4 h-4 text-corail" />
-                <div>
-                  <div className="text-[9px] text-gray-400 font-sans uppercase">Stack Core</div>
-                  <div className="text-white font-bold text-[11px]">React 19 & Next.js</div>
-                </div>
-              </div>
-
-              {/* Floating Bottom-Right Architecture Chip */}
-              <div className="hero-satellite-badge absolute bottom-12 right-4 px-3.5 py-2 rounded-xl bg-encre/90 border border-white/20 backdrop-blur-xl shadow-2xl flex items-center gap-2.5 text-xs font-mono">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <div>
-                  <div className="text-[9px] text-gray-400 font-sans uppercase">Craftsmanship</div>
-                  <div className="text-emerald-400 font-bold text-[11px]">Clean Architecture</div>
-                </div>
-              </div>
-
-              {/* Sleek Live Inspector Terminal Strip */}
-              <div className="absolute bottom-3 left-4 right-4 px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-[11px] font-mono text-gray-300 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Terminal className="w-3.5 h-3.5 text-corail" />
-                  <span>architect.location</span>
-                </div>
-                <span className="text-white font-semibold">Kolwezi, RDC</span>
-              </div>
+              <span className="text-corail font-semibold text-[11px]">10.72° S, 25.47° E • CAT</span>
             </div>
           </div>
         </div>
@@ -765,7 +871,7 @@ FORMATION & CERTIFICATIONS :
       <section
         id="experience"
         ref={experienceRef}
-        className="py-16 md:py-20 lg:py-24 px-6 md:px-12 bg-[#0F0F12] relative overflow-hidden border-t border-white/5"
+        className="py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-12 bg-[#0F0F12] relative overflow-hidden border-t border-white/5"
       >
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
@@ -784,20 +890,20 @@ FORMATION & CERTIFICATIONS :
           {/* Timeline Container */}
           <div className="relative">
             {/* Center Line on Desktop / Left on Mobile */}
-            <div className="absolute top-0 bottom-0 left-6 md:left-1/2 -translate-x-1/2 w-[2px] bg-corail/30 rounded-full" />
+            <div className="absolute top-0 bottom-0 left-4 sm:left-6 md:left-1/2 -translate-x-1/2 w-[2px] bg-corail/30 rounded-full" />
 
             {/* Experience Items */}
-            <div className="space-y-12">
+            <div className="space-y-10 sm:space-y-12">
               {/* Item 1 */}
               <div className="relative flex flex-col md:flex-row items-start md:items-center">
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-[#0F0F12] border-4 border-corail z-10 shadow-[0_0_15px_rgba(232,99,74,0.4)]" />
+                <div className="absolute left-4 sm:left-6 md:left-1/2 -translate-x-1/2 w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-[#0F0F12] border-4 border-corail z-10 shadow-[0_0_15px_rgba(232,99,74,0.4)]" />
 
-                <div className="timeline-card w-full md:w-1/2 pl-14 md:pl-0 md:pr-12 md:text-right">
-                  <div className="card-experience p-6 sm:p-8 rounded-[2.5rem] bg-[#16161E] border border-white/10 shadow-xl hover:shadow-2xl hover:border-corail/40 transition-all">
+                <div className="timeline-card w-full md:w-1/2 pl-9 sm:pl-14 md:pl-0 md:pr-12 md:text-right">
+                  <div className="card-experience p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-[#16161E] border border-white/10 shadow-xl hover:shadow-2xl hover:border-corail/40 transition-all">
                     <span className="font-mono text-xs font-semibold text-corail uppercase tracking-wider block mb-2">
                       2022 — Présent
                     </span>
-                    <h3 className="font-sans font-bold text-xl md:text-2xl text-white mb-1">
+                    <h3 className="font-sans font-bold text-lg sm:text-xl md:text-2xl text-white mb-1">
                       Lead Frontend & Architecte
                     </h3>
                     <p className="text-sm font-medium text-gray-300 mb-3 flex items-center md:justify-end gap-1.5">
@@ -829,15 +935,15 @@ FORMATION & CERTIFICATIONS :
 
               {/* Item 2 */}
               <div className="relative flex flex-col md:flex-row items-start md:items-center">
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-[#0F0F12] border-4 border-corail z-10 shadow-[0_0_15px_rgba(232,99,74,0.4)]" />
+                <div className="absolute left-4 sm:left-6 md:left-1/2 -translate-x-1/2 w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-[#0F0F12] border-4 border-corail z-10 shadow-[0_0_15px_rgba(232,99,74,0.4)]" />
                 <div className="hidden md:block w-1/2 pr-12" />
 
-                <div className="timeline-card w-full md:w-1/2 pl-14 md:pl-12 text-left">
-                  <div className="card-experience p-6 sm:p-8 rounded-[2.5rem] bg-[#16161E] border border-white/10 shadow-xl hover:shadow-2xl hover:border-corail/40 transition-all">
+                <div className="timeline-card w-full md:w-1/2 pl-9 sm:pl-14 md:pl-12 text-left">
+                  <div className="card-experience p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-[#16161E] border border-white/10 shadow-xl hover:shadow-2xl hover:border-corail/40 transition-all">
                     <span className="font-mono text-xs font-semibold text-corail uppercase tracking-wider block mb-2">
                       2019 — 2022
                     </span>
-                    <h3 className="font-sans font-bold text-xl md:text-2xl text-white mb-1">
+                    <h3 className="font-sans font-bold text-lg sm:text-xl md:text-2xl text-white mb-1">
                       Fullstack Engineer Senior
                     </h3>
                     <p className="text-sm font-medium text-gray-300 mb-3 flex items-center gap-1.5">
@@ -867,14 +973,14 @@ FORMATION & CERTIFICATIONS :
 
               {/* Item 3 */}
               <div className="relative flex flex-col md:flex-row items-start md:items-center">
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-[#0F0F12] border-4 border-corail z-10 shadow-[0_0_15px_rgba(232,99,74,0.4)]" />
+                <div className="absolute left-4 sm:left-6 md:left-1/2 -translate-x-1/2 w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-[#0F0F12] border-4 border-corail z-10 shadow-[0_0_15px_rgba(232,99,74,0.4)]" />
 
-                <div className="timeline-card w-full md:w-1/2 pl-14 md:pl-0 md:pr-12 md:text-right">
-                  <div className="card-experience p-6 sm:p-8 rounded-[2.5rem] bg-[#16161E] border border-white/10 shadow-xl hover:shadow-2xl hover:border-corail/40 transition-all">
+                <div className="timeline-card w-full md:w-1/2 pl-9 sm:pl-14 md:pl-0 md:pr-12 md:text-right">
+                  <div className="card-experience p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-[#16161E] border border-white/10 shadow-xl hover:shadow-2xl hover:border-corail/40 transition-all">
                     <span className="font-mono text-xs font-semibold text-corail uppercase tracking-wider block mb-2">
                       2017 — 2019
                     </span>
-                    <h3 className="font-sans font-bold text-xl md:text-2xl text-white mb-1">
+                    <h3 className="font-sans font-bold text-lg sm:text-xl md:text-2xl text-white mb-1">
                       Développeur Web Frontend
                     </h3>
                     <p className="text-sm font-medium text-gray-300 mb-3 flex items-center md:justify-end gap-1.5">
@@ -939,7 +1045,7 @@ FORMATION & CERTIFICATIONS :
           <div className="rounded-[2.5rem] sm:rounded-[3rem] bg-[#181820] border border-white/10 shadow-2xl overflow-hidden">
             
             {/* Top Bar Status Deck */}
-            <div className="px-6 py-4 bg-[#101014] text-white flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
+            <div className="px-4 sm:px-6 py-4 bg-[#101014] text-white flex flex-wrap items-center justify-between gap-3 sm:gap-4 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
@@ -949,12 +1055,12 @@ FORMATION & CERTIFICATIONS :
                 <div className="h-4 w-[1px] bg-white/20 mx-1 hidden sm:block" />
                 <span className="font-mono text-xs font-semibold text-gray-300 flex items-center gap-2">
                   <Terminal className="w-3.5 h-3.5 text-corail" />
-                  <span>DASHBOARD::CORE_ENGINE_v4.2</span>
+                  <span className="truncate">DASHBOARD::CORE_ENGINE_v4.2</span>
                 </span>
               </div>
 
               {/* Status Indicator & Live Metrics */}
-              <div className="flex items-center gap-4 text-xs font-mono">
+              <div className="flex items-center gap-3 sm:gap-4 text-xs font-mono">
                 <span className="flex items-center gap-1.5 text-emerald-400">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                   SYSTEM OPTIMAL
@@ -967,41 +1073,41 @@ FORMATION & CERTIFICATIONS :
             </div>
 
             {/* Dashboard Navigation Tabs */}
-            <div className="px-6 pt-5 pb-3 bg-[#14141A] border-b border-white/10 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-2 p-1 rounded-2xl bg-[#1A1A24] border border-white/10">
+            <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-3 bg-[#14141A] border-b border-white/10 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+              <div className="flex items-center gap-1.5 sm:gap-2 p-1 rounded-2xl bg-[#1A1A24] border border-white/10 overflow-x-auto max-w-full">
                 <button
                   onClick={() => setActiveTab('gauges')}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                  className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap cursor-pointer ${
                     activeTab === 'gauges'
                       ? 'bg-corail text-white shadow-md'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <Gauge className="w-4 h-4" />
+                  <Gauge className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
                   <span>Jauges & Compétences</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('radar')}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                  className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap cursor-pointer ${
                     activeTab === 'radar'
                       ? 'bg-corail text-white shadow-md'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <Radio className="w-4 h-4" />
+                  <Radio className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
                   <span>Radar d'Expertise</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('system')}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                  className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap cursor-pointer ${
                     activeTab === 'system'
                       ? 'bg-corail text-white shadow-md'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <BarChart3 className="w-4 h-4" />
+                  <BarChart3 className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
                   <span>Moniteur & Health</span>
                 </button>
               </div>
