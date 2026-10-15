@@ -512,30 +512,28 @@ FORMATION & CERTIFICATIONS :
             className="flex items-center gap-3 sm:gap-3.5 group link-lift focus:outline-none"
           >
             {/* Bespoke 79 Monogram Logo Mark Standalone */}
-            <div className="relative shrink-0">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#0F0F14] border border-white/10 group-hover:border-corail/70 shadow-lg shadow-black/40 group-hover:shadow-coral p-1 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+            <div className="shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0F0F14] border border-white/10 group-hover:border-corail/70 shadow-md shadow-black/40 group-hover:shadow-coral p-1 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
                 <SeptNeufLogo className="w-full h-full" />
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#111115] animate-pulse" />
             </div>
 
-            {/* Bold Bespoke Typographic Brand Lockup */}
+            {/* Refined Bespoke Typographic Brand Lockup (Sleeker & More Balanced) */}
             <div className="flex flex-col text-left">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <div className="flex items-baseline tracking-tight">
-                  <span className="font-display font-black text-base sm:text-lg text-white group-hover:text-gray-100 transition-colors">
+                  <span className="font-display font-extrabold text-xs sm:text-sm tracking-wide text-white group-hover:text-gray-200 transition-colors">
                     SEPT
                   </span>
-                  <span className="font-display font-black text-base sm:text-lg bg-gradient-to-r from-corail-light via-corail to-[#FF7E63] bg-clip-text text-transparent ml-1">
+                  <span className="font-display font-extrabold text-xs sm:text-sm tracking-wide bg-gradient-to-r from-corail-light via-corail to-[#FF7E63] bg-clip-text text-transparent ml-1">
                     NEUF
                   </span>
                 </div>
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-corail/15 border border-corail/30 text-corail hidden sm:inline-block tracking-wider shadow-xs">
+                <span className="text-[8px] font-mono font-bold px-1 py-0.2 rounded bg-corail/15 border border-corail/30 text-corail hidden sm:inline-block tracking-wider">
                   #79
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-mono text-gray-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="flex items-center gap-1 text-[10px] font-mono text-gray-400">
                 <span className="uppercase tracking-wider text-gray-300 font-medium">Architecte</span>
                 <span className="text-gray-600 hidden xs:inline">•</span>
                 <span className="text-gray-400 hidden sm:inline">Lead Tech</span>
