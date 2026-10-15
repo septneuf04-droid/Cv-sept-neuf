@@ -511,19 +511,12 @@ FORMATION & CERTIFICATIONS :
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-3 sm:gap-3.5 group link-lift focus:outline-none"
           >
-            {/* Visual Lockup: Photo Portrait + Overlapping 79 Insignia */}
-            <div className="relative flex items-center shrink-0">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-corail/80 shadow-coral p-[1px] bg-[#111115] relative z-10">
-                <img
-                  src={userPhoto}
-                  alt="Sept Neuf Portrait"
-                  className="w-full h-full object-cover object-[center_10%] rounded-full group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              {/* Overlapping Bespoke 79 Monogram Logo Seal */}
-              <div className="-ml-3.5 relative z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#0F0F14] border border-corail/60 shadow-md shadow-corail/25 p-0.5 flex items-center justify-center group-hover:border-corail group-hover:scale-110 transition-all duration-300">
+            {/* Bespoke 79 Monogram Logo Mark Standalone */}
+            <div className="relative shrink-0">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#0F0F14] border border-white/10 group-hover:border-corail/70 shadow-lg shadow-black/40 group-hover:shadow-coral p-1 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
                 <SeptNeufLogo className="w-full h-full" />
               </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#111115] animate-pulse" />
             </div>
 
             {/* Bold Bespoke Typographic Brand Lockup */}
@@ -1859,15 +1852,10 @@ FORMATION & CERTIFICATIONS :
       {/* ======================================================== */}
       <footer className="bg-[#0B0B0E] text-white pt-14 pb-10 px-6 rounded-t-[3.5rem] sm:rounded-t-[4rem] relative z-20 border-t border-white/10">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-between gap-6 md:flex-row">
-          {/* Identity with Photo Avatar + SeptNeufLogo Seal */}
+          {/* Identity with SeptNeufLogo Standalone */}
           <div className="flex items-center gap-3.5">
-            <div className="relative flex items-center shrink-0">
-              <div className="w-10 h-10 rounded-full overflow-hidden border border-corail/60 bg-[#111115]">
-                <img src={userPhoto} alt="Sept Neuf" className="w-full h-full object-cover object-[center_10%]" />
-              </div>
-              <div className="-ml-3 w-6 h-6 rounded-lg bg-[#0F0F14] border border-corail/50 shadow-sm p-0.5 flex items-center justify-center">
-                <SeptNeufLogo className="w-full h-full" />
-              </div>
+            <div className="w-10 h-10 rounded-2xl bg-[#0F0F14] border border-white/10 p-1 flex items-center justify-center shrink-0">
+              <SeptNeufLogo className="w-full h-full" />
             </div>
             <div>
               <div className="flex items-baseline">
