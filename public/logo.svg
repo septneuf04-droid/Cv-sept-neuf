@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181822"/>
+      <stop offset="50%" stop-color="#0E0E14"/>
+      <stop offset="100%" stop-color="#08080C"/>
+    </linearGradient>
+    
+    <!-- Coral Gradient for 9 -->
+    <linearGradient id="coralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7E63"/>
+      <stop offset="50%" stop-color="#E8634A"/>
+      <stop offset="100%" stop-color="#C64730"/>
+    </linearGradient>
+
+    <!-- Metallic Border Gradient -->
+    <linearGradient id="strokeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A65" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#3A3A4A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E8634A" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Drop Shadow for Depth -->
+    <filter id="glowShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#E8634A" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base Frame -->
+  <rect x="6" y="6" width="108" height="108" rx="28" fill="url(#bgGrad)" stroke="url(#strokeGrad)" stroke-width="2.5"/>
+  
+  <!-- Subtle Internal Grid Lines -->
+  <line x1="6" y1="38" x2="114" y2="38" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="6" y1="82" x2="114" y2="82" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="38" y1="6" x2="38" y2="114" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="82" y1="6" x2="82" y2="114" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1"/>
+
+  <!-- Core Radial Glow -->
+  <circle cx="60" cy="60" r="32" fill="#E8634A" opacity="0.15"/>
+
+  <!-- GLYPH "7" (White Architectural Monolith) -->
+  <path d="M 28 32 L 68 32 L 68 43 L 47 88 L 33 88 L 53 44 L 28 44 Z" fill="#FFFFFF"/>
+  
+  <!-- GLYPH "9" (Interlocking Vibrant Coral Blade) -->
+  <path d="M 72 32 C 84.5 32 93 40.5 93 52 C 93 63.5 85.5 71.5 74 72.5 L 74 88 L 61 88 L 61 70 C 55 65.5 51 58.5 51 51 C 51 39.5 59.5 32 72 32 Z M 72 43 C 66.8 43 62.5 47 62.5 52 C 62.5 57 66.8 61 72 61 C 77.2 61 81.5 57 81.5 52 C 81.5 47 77.2 43 72 43 Z" fill="url(#coralGrad)" filter="url(#glowShadow)"/>
+
+  <!-- Corner Precision Pins -->
+  <circle cx="22" cy="22" r="2.5" fill="#E8634A" opacity="0.9"/>
+  <circle cx="98" cy="98" r="2.5" fill="#FF7E63" opacity="0.9"/>
+  <circle cx="98" cy="22" r="2" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="22" cy="98" r="2" fill="#FFFFFF" opacity="0.3"/>
+</svg>

@@ -43,6 +43,86 @@ import userPhoto from './assets/ma_photo.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// ========================================================
+// Bespoke Vector Logo for "Sept-Neuf" (79)
+// Architectural Monogram: White Monolith "7" + Glowing Coral Blade "9"
+// ========================================================
+function SeptNeufLogo({ className = 'w-8 h-8' }) {
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      className={`${className} shrink-0`}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Logo Sept Neuf 79"
+    >
+      <defs>
+        <linearGradient id="snBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#1B1B26" />
+          <stop offset="50%" stopColor="#101017" />
+          <stop offset="100%" stopColor="#08080C" />
+        </linearGradient>
+
+        <linearGradient id="snCoralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FF7E63" />
+          <stop offset="50%" stopColor="#E8634A" />
+          <stop offset="100%" stopColor="#C64730" />
+        </linearGradient>
+
+        <linearGradient id="snStrokeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FF8A65" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="#3A3A4A" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#E8634A" stopOpacity="0.9" />
+        </linearGradient>
+
+        <filter id="snGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#E8634A" floodOpacity="0.5" />
+        </filter>
+      </defs>
+
+      {/* Frame Container */}
+      <rect
+        x="6"
+        y="6"
+        width="108"
+        height="108"
+        rx="28"
+        fill="url(#snBgGrad)"
+        stroke="url(#snStrokeGrad)"
+        strokeWidth="2.5"
+      />
+
+      {/* Subtle Micro-grid */}
+      <line x1="6" y1="38" x2="114" y2="38" stroke="#FFFFFF" strokeOpacity="0.04" strokeWidth="1" />
+      <line x1="6" y1="82" x2="114" y2="82" stroke="#FFFFFF" strokeOpacity="0.04" strokeWidth="1" />
+      <line x1="38" y1="6" x2="38" y2="114" stroke="#FFFFFF" strokeOpacity="0.04" strokeWidth="1" />
+      <line x1="82" y1="6" x2="82" y2="114" stroke="#FFFFFF" strokeOpacity="0.04" strokeWidth="1" />
+
+      {/* Central Luminescence */}
+      <circle cx="60" cy="60" r="32" fill="#E8634A" opacity="0.14" />
+
+      {/* GLYPH "7" (White Architectural Monolith) */}
+      <path
+        d="M 28 32 L 68 32 L 68 43 L 47 88 L 33 88 L 53 44 L 28 44 Z"
+        fill="#FFFFFF"
+      />
+
+      {/* GLYPH "9" (Interlocking Coral Blade with Shadow Glow) */}
+      <path
+        d="M 72 32 C 84.5 32 93 40.5 93 52 C 93 63.5 85.5 71.5 74 72.5 L 74 88 L 61 88 L 61 70 C 55 65.5 51 58.5 51 51 C 51 39.5 59.5 32 72 32 Z M 72 43 C 66.8 43 62.5 47 62.5 52 C 62.5 57 66.8 61 72 61 C 77.2 61 81.5 57 81.5 52 C 81.5 47 77.2 43 72 43 Z"
+        fill="url(#snCoralGrad)"
+        filter="url(#snGlow)"
+      />
+
+      {/* Precision Corner Accents */}
+      <circle cx="22" cy="22" r="2.5" fill="#E8634A" opacity="0.9" />
+      <circle cx="98" cy="98" r="2.5" fill="#FF7E63" opacity="0.9" />
+      <circle cx="98" cy="22" r="2" fill="#FFFFFF" opacity="0.3" />
+      <circle cx="22" cy="98" r="2" fill="#FFFFFF" opacity="0.3" />
+    </svg>
+  );
+}
+
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -425,35 +505,48 @@ FORMATION & CERTIFICATIONS :
         }`}
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between">
-          {/* Left Block: Photo Avatar Cadre & Marque */}
+          {/* Left Block: Photo Avatar + Sceau Logo 79 & Marque Typographique */}
           <a
             href="#hero"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 group link-lift focus:outline-none"
+            className="flex items-center gap-3 sm:gap-3.5 group link-lift focus:outline-none"
           >
-            <div className="relative">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-corail shadow-coral p-[1px] bg-encre">
+            {/* Visual Lockup: Photo Portrait + Overlapping 79 Insignia */}
+            <div className="relative flex items-center shrink-0">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-corail/80 shadow-coral p-[1px] bg-[#111115] relative z-10">
                 <img
                   src={userPhoto}
                   alt="Sept Neuf Portrait"
                   className="w-full h-full object-cover object-[center_10%] rounded-full group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#111115] animate-pulse" />
+              {/* Overlapping Bespoke 79 Monogram Logo Seal */}
+              <div className="-ml-3.5 relative z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#0F0F14] border border-corail/60 shadow-md shadow-corail/25 p-0.5 flex items-center justify-center group-hover:border-corail group-hover:scale-110 transition-all duration-300">
+                <SeptNeufLogo className="w-full h-full" />
+              </div>
             </div>
 
+            {/* Bold Bespoke Typographic Brand Lockup */}
             <div className="flex flex-col text-left">
-              <div className="flex items-center gap-1.5">
-                <span className="font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-white">
-                  Sept Neuf
-                </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-corail/20 text-corail font-semibold hidden sm:inline-block">
-                  ARCHITECTE
+              <div className="flex items-center gap-2">
+                <div className="flex items-baseline tracking-tight">
+                  <span className="font-display font-black text-base sm:text-lg text-white group-hover:text-gray-100 transition-colors">
+                    SEPT
+                  </span>
+                  <span className="font-display font-black text-base sm:text-lg bg-gradient-to-r from-corail-light via-corail to-[#FF7E63] bg-clip-text text-transparent ml-1">
+                    NEUF
+                  </span>
+                </div>
+                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-corail/15 border border-corail/30 text-corail hidden sm:inline-block tracking-wider shadow-xs">
+                  #79
                 </span>
               </div>
-              <span className="text-[11px] font-mono text-gray-300 hidden sm:block">
-                Lead Développeur Senior
-              </span>
+              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-mono text-gray-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="uppercase tracking-wider text-gray-300 font-medium">Architecte</span>
+                <span className="text-gray-600 hidden xs:inline">•</span>
+                <span className="text-gray-400 hidden sm:inline">Lead Tech</span>
+              </div>
             </div>
           </a>
 
@@ -563,13 +656,19 @@ FORMATION & CERTIFICATIONS :
       >
         {/* Navigation Items with Numbers */}
         <div className="space-y-2.5">
-          <div className="flex items-center justify-between px-2 mb-3">
-            <span className="font-mono text-[11px] uppercase tracking-widest text-corail font-bold flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-corail animate-pulse" />
-              Navigation Principale
-            </span>
-            <span className="font-mono text-[11px] text-gray-500">
-              Sept Neuf Portfolio
+          <div className="flex items-center justify-between px-2 mb-3 pb-3 border-b border-white/10">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-[#0F0F14] border border-corail/50 shadow-sm p-0.5 flex items-center justify-center">
+                <SeptNeufLogo className="w-full h-full" />
+              </div>
+              <div className="flex items-baseline">
+                <span className="font-display font-black text-base text-white">SEPT</span>
+                <span className="font-display font-black text-base bg-gradient-to-r from-corail-light to-corail bg-clip-text text-transparent ml-1">NEUF</span>
+                <span className="ml-1.5 font-mono text-[9px] font-bold px-1.5 py-0.2 rounded bg-corail/20 text-corail">#79</span>
+              </div>
+            </div>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-gray-500">
+              Menu Pro
             </span>
           </div>
 
@@ -689,9 +788,15 @@ FORMATION & CERTIFICATIONS :
             </div>
 
             {/* Candidate Name — Police SYNE Spectaculaire (font-display) */}
-            <h1 className="hero-name-line font-display font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[6.2rem] tracking-tight text-white mb-2 uppercase leading-[0.9] drop-shadow-2xl">
-              <span className="bg-gradient-to-br from-white via-white to-gray-400 bg-clip-text text-transparent">
-                Sept Neuf
+            <h1 className="hero-name-line font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[6.2rem] tracking-tight text-white mb-2 uppercase leading-[0.9] drop-shadow-2xl flex flex-wrap items-baseline gap-x-3 sm:gap-x-4">
+              <span className="bg-gradient-to-br from-white via-white to-gray-300 bg-clip-text text-transparent">
+                Sept
+              </span>
+              <span className="bg-gradient-to-r from-corail-light via-corail to-[#FF7E63] bg-clip-text text-transparent">
+                Neuf
+              </span>
+              <span className="font-mono text-xs sm:text-sm lg:text-base px-2.5 py-1 rounded-xl bg-corail/15 border border-corail/30 text-corail font-bold normal-case tracking-wider self-center align-middle shadow-coral">
+                #79
               </span>
             </h1>
 
@@ -1754,16 +1859,29 @@ FORMATION & CERTIFICATIONS :
       {/* ======================================================== */}
       <footer className="bg-[#0B0B0E] text-white pt-14 pb-10 px-6 rounded-t-[3.5rem] sm:rounded-t-[4rem] relative z-20 border-t border-white/10">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-between gap-6 md:flex-row">
-          {/* Identity with Photo Avatar */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full overflow-hidden border border-corail/60">
-              <img src={userPhoto} alt="Sept Neuf" className="w-full h-full object-cover object-[center_10%]" />
+          {/* Identity with Photo Avatar + SeptNeufLogo Seal */}
+          <div className="flex items-center gap-3.5">
+            <div className="relative flex items-center shrink-0">
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-corail/60 bg-[#111115]">
+                <img src={userPhoto} alt="Sept Neuf" className="w-full h-full object-cover object-[center_10%]" />
+              </div>
+              <div className="-ml-3 w-6 h-6 rounded-lg bg-[#0F0F14] border border-corail/50 shadow-sm p-0.5 flex items-center justify-center">
+                <SeptNeufLogo className="w-full h-full" />
+              </div>
             </div>
             <div>
-              <span className="font-mono text-sm tracking-widest uppercase font-semibold text-white block">
-                Sept Neuf
-              </span>
-              <p className="text-[11px] text-gray-400">
+              <div className="flex items-baseline">
+                <span className="font-display font-black text-sm tracking-tight uppercase text-white">
+                  Sept
+                </span>
+                <span className="font-display font-black text-sm tracking-tight uppercase text-corail ml-1">
+                  Neuf
+                </span>
+                <span className="font-mono text-[9px] font-bold px-1.5 py-0.2 rounded bg-corail/15 text-corail ml-1.5">
+                  #79
+                </span>
+              </div>
+              <p className="text-[11px] font-mono text-gray-400">
                 Développeur Senior & Architecte Logiciel
               </p>
             </div>
